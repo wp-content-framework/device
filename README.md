@@ -16,6 +16,7 @@
 
 ## 依存モジュール
 * [core](https://github.com/wp-content-framework/core)  
+* [mobiledetect/mobiledetectlib](https://github.com/serbanghita/Mobile-Detect)
 
 # Author
 

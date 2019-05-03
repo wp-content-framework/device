@@ -11,6 +11,11 @@
 
 namespace WP_Framework_Device\Classes\Models;
 
+use Mobile_Detect;
+use WP_Framework_Core\Traits\Hook;
+use WP_Framework_Core\Traits\Singleton;
+use WP_Framework_Device\Traits\Package;
+
 if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
 	exit;
 }
@@ -21,7 +26,7 @@ if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
  */
 class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_Core\Interfaces\Hook {
 
-	use \WP_Framework_Core\Traits\Singleton, \WP_Framework_Core\Traits\Hook, \WP_Framework_Device\Traits\Package;
+	use Singleton, Hook, Package;
 
 	/**
 	 * @var bool $_is_robot
@@ -29,7 +34,7 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	private $_is_robot = null;
 
 	/**
-	 * @var \Mobile_Detect $_mobile_detect
+	 * @var Mobile_Detect $_mobile_detect
 	 */
 	private $_mobile_detect;
 
@@ -44,7 +49,7 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * initialize
 	 */
 	protected function initialize() {
-		$this->_mobile_detect = new \Mobile_Detect();
+		$this->_mobile_detect = new Mobile_Detect();
 	}
 
 	/**
@@ -122,7 +127,7 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	}
 
 	/**
-	 * @return \Mobile_Detect
+	 * @return Mobile_Detect
 	 */
 	public function get_mobile_detect() {
 		return $this->_mobile_detect;

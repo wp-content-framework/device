@@ -2,7 +2,7 @@
 /**
  * WP_Framework_Device Models Device Test
  *
- * @version 0.0.1
+ * @version 0.0.10
  * @author Technote
  * @copyright Technote All Rights Reserved
  * @license http://www.opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2
@@ -11,22 +11,25 @@
 
 namespace WP_Framework_Device\Tests\Models;
 
+use WP_Framework_Device\Classes\Models\Device;
+use WP_Framework_Device\Tests\TestCase;
+
 /**
  * Class DeviceTest
  * @package WP_Framework_Device\Tests\Models
  * @group wp_framework
  * @group models
  */
-class DeviceTest extends \WP_Framework_Device\Tests\TestCase {
+class DeviceTest extends TestCase {
 
 	/**
-	 * @var \WP_Framework_Device\Classes\Models\Device $_device
+	 * @var Device $_device
 	 */
 	private static $_device;
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		static::$_device = \WP_Framework_Device\Classes\Models\Device::get_instance( static::$app );
+		static::$_device = Device::get_instance( static::$app );
 	}
 
 	/**

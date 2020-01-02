@@ -2,7 +2,6 @@
 /**
  * WP_Framework_Device Classes Models Device
  *
- * @version 0.0.10
  * @author Technote
  * @copyright Technote All Rights Reserved
  * @license http://www.opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2
@@ -29,14 +28,14 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	use Singleton, Hook, Package;
 
 	/**
-	 * @var bool $_is_robot
+	 * @var bool $is_robot
 	 */
-	private $_is_robot = null;
+	private $is_robot = null;
 
 	/**
-	 * @var Mobile_Detect $_mobile_detect
+	 * @var Mobile_Detect $mobile_detect
 	 */
-	private $_mobile_detect;
+	private $mobile_detect;
 
 	/**
 	 * @return bool
@@ -49,7 +48,7 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * initialize
 	 */
 	protected function initialize() {
-		$this->_mobile_detect = new Mobile_Detect();
+		$this->mobile_detect = new Mobile_Detect();
 	}
 
 	/**
@@ -58,13 +57,13 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @return bool
 	 */
 	public function is_robot( $cache = true ) {
-		if ( $cache && isset( $this->_is_robot ) ) {
-			return $this->_is_robot;
+		if ( $cache && isset( $this->is_robot ) ) {
+			return $this->is_robot;
 		}
 
-		$this->_is_robot = $this->apply_filters( 'pre_check_bot', null );
-		if ( is_bool( $this->_is_robot ) ) {
-			return $this->_is_robot;
+		$this->is_robot = $this->apply_filters( 'pre_check_bot', null );
+		if ( is_bool( $this->is_robot ) ) {
+			return $this->is_robot;
 		}
 
 		$bot_list = explode( ',', $this->apply_filters( 'bot_list', implode( ',', [
@@ -78,8 +77,6 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 			'Y!J-BRI',
 			'Y!J-BRJ/YATS crawler',
 			'Tumblr',
-			//		'livedoor',
-			//		'Hatena',
 			'Twitterbot',
 			'Page Speed',
 			'Google Web Preview',
@@ -95,17 +92,17 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 			'Ask Jeeves/Teoma; ',
 		] ) ) );
 
-		$this->_is_robot = false;
-		$ua              = $this->app->input->user_agent();
+		$this->is_robot = false;
+		$ua             = $this->app->input->user_agent();
 		foreach ( $bot_list as $value ) {
 			$value = trim( $value );
 			if ( preg_match( '/' . str_replace( '/', '\\/', $value ) . '/i', $ua ) ) {
-				$this->_is_robot = true;
+				$this->is_robot = true;
 				break;
 			}
 		}
 
-		return $this->_is_robot;
+		return $this->is_robot;
 	}
 
 	/**
@@ -114,7 +111,7 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @return bool
 	 */
 	public function is_tablet( $ua = null ) {
-		return $this->_mobile_detect->isTablet( $ua );
+		return $this->mobile_detect->isTablet( $ua );
 	}
 
 	/**
@@ -123,13 +120,13 @@ class Device implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @return bool
 	 */
 	public function is_mobile( $ua = null ) {
-		return $this->_mobile_detect->isMobile( $ua );
+		return $this->mobile_detect->isMobile( $ua );
 	}
 
 	/**
 	 * @return Mobile_Detect
 	 */
 	public function get_mobile_detect() {
-		return $this->_mobile_detect;
+		return $this->mobile_detect;
 	}
 }

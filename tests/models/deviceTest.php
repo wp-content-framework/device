@@ -2,7 +2,6 @@
 /**
  * WP_Framework_Device Models Device Test
  *
- * @version 0.0.10
  * @author Technote
  * @copyright Technote All Rights Reserved
  * @license http://www.opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2
@@ -23,17 +22,17 @@ use WP_Framework_Device\Tests\TestCase;
 class DeviceTest extends TestCase {
 
 	/**
-	 * @var Device $_device
+	 * @var Device $device
 	 */
-	private static $_device;
+	private static $device;
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		static::$_device = Device::get_instance( static::$app );
+		static::$device = Device::get_instance( static::$app );
 	}
 
 	/**
-	 * @dataProvider _test_is_bot_provider
+	 * @dataProvider provider_test_is_bot
 	 *
 	 * @param string $ua
 	 * @param bool $is_robot
@@ -41,17 +40,18 @@ class DeviceTest extends TestCase {
 	 * @param bool $is_mobile
 	 */
 	public function test_device( $ua, $is_robot, $is_tablet, $is_mobile ) {
-		$_SERVER['HTTP_USER_AGENT'] = $ua;
-		$this->assertEquals( $is_robot, static::$_device->is_robot( false ) );
-		$this->assertEquals( $is_tablet, static::$_device->is_tablet( $ua ) );
-		$this->assertEquals( $is_mobile, static::$_device->is_mobile( $ua ) );
+		static::$app->input->set_server( 'HTTP_USER_AGENT', $ua );
+		$this->assertEquals( $is_robot, static::$device->is_robot( false ) );
+		$this->assertEquals( $is_tablet, static::$device->is_tablet( $ua ) );
+		$this->assertEquals( $is_mobile, static::$device->is_mobile( $ua ) );
 	}
 
 	/**
 	 * @return array
 	 * @link http://www.openspc2.org/userAgent/
+	 * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
 	 */
-	public function _test_is_bot_provider() {
+	public function provider_test_is_bot() {
 		return [
 			// iPhone
 			[
